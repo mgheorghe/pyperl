@@ -164,7 +164,10 @@ jobs:
 
       - name: pip install and test the installed copy
         run: |
-          pip install .
+          # the build must not depend on a "python" on PATH
+          mkdir -p "$RUNNER_TEMP/broken" && printf '#!/bin/sh\nexit 1\n' > "$RUNNER_TEMP/broken/python" && chmod +x "$RUNNER_TEMP/broken/python"
+          py=$(command -v python)
+          PATH="$RUNNER_TEMP/broken:$PATH" "$py" -m pip install .
           cd "$RUNNER_TEMP"
           python -c 'import perl; assert perl.eval("3+3") == 6; print("pyperl OK with perl", perl.eval("sprintf q{%vd}, $^V"))'
           cd "$GITHUB_WORKSPACE"
