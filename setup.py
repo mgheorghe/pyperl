@@ -128,7 +128,9 @@ if len(sys.argv) > 1 and sys.argv[1] in ("test", "build", "install"):
     perlarchlib = '%s/Python-Object/blib/arch' % cwd
     os.environ["PERL5LIB"] = os.pathsep.join([perllib, perlarchlib] + ([os.environ["PERL5LIB"]] if "PERL5LIB" in os.environ else []))
     os.environ["LD_LIBRARY_PATH"] = "%s%s" % (ldpath, (":"+os.environ["LD_LIBRARY_PATH"] if "LD_LIBRARY_PATH" in os.environ else ''))
-    os.environ["PYTHON"] = sys.executable
+
+# Python-Object/Makefile.PL finds Python.h through this, also under pip
+os.environ["PYTHON"] = sys.executable
 
 
 if WIN32:
