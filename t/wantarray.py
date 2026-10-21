@@ -22,7 +22,7 @@ sub foo {
 
 """)
 
-foo = perl.eval("\&foo")
+foo = perl.eval(r"\&foo")
 
 testno = 1
 
